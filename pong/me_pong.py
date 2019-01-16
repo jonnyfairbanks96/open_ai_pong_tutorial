@@ -5,7 +5,6 @@ from gym import wrappers
 
 # hyperparameters
 H = 200 # number of hidden layer neurons
-batch_size = 10 # every how many episodes to do a param update?
 learning_rate = 1e-4
 gamma = 0.99 # discount factor for reward
 decay_rate = 0.99 # decay factor for RMSProp leaky sum of grad^2
@@ -62,7 +61,7 @@ def policy_backward(eph, epdlogp):
   return {'W1':dW1, 'W2':dW2}
 
 env = gym.make("Pong-v0")
-#env = gym.make("Alien-v0")
+# env = gym.make("Alien-v0")
 #env = wrappers.Monitor(env, './tmp/Pong-experiment-1')
 
 observation = env.reset()
@@ -118,7 +117,7 @@ while True:
     grad = policy_backward(eph, epdlogp)
     for k in model: grad_buffer[k] += grad[k] # accumulate grad over batch
 
-    # perform rmsprop parameter update every batch_size episodes
+    # save model every 100 episodes
     if episode_number % 100 == 0:
       for k,v in model.iteritems():
         g = grad_buffer[k] # gradient
