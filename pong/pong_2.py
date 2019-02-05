@@ -9,7 +9,7 @@ learning_rate = 1e-4
 gamma = 0.99 # discount factor for reward
 decay_rate = 0.99 # decay factor for RMSProp leaky sum of grad^2
 resume = True # resume from previous checkpoint?
-# render = True
+render = False
 
 # model initialization
 D = 80 * 80 # input dimensionality: 80x80 grid
@@ -71,8 +71,8 @@ running_reward = None
 reward_sum = 0
 episode_number = 0
 while True:
-#for episode_number in range(2000000):
-  #if render: env.render()
+# for episode_number in range(2000000):
+  if render: env.render()
 
   # preprocess the observation, set input to network to be difference image
   cur_x = prepro(observation)
@@ -127,7 +127,7 @@ while True:
 
     # boring book-keeping
     running_reward = reward_sum if running_reward is None else running_reward * 0.99 + reward_sum * 0.01
-    print 'resetting env. episode reward total was %f. running mean: %f' % (reward_sum, running_reward)
+    print('resetting env. episode reward total was %f. running mean: %f') % (reward_sum, running_reward)
     if episode_number % 100 == 0: pickle.dump(model, open('save.p', 'wb'))
     reward_sum = 0
     observation = env.reset() # reset env
